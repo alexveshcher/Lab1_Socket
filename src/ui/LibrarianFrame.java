@@ -1,6 +1,14 @@
 package ui;
 
-import java.awt.BorderLayout;
+import dao.BookDao;
+import dao.DaoFactory;
+import dao.OrderDao;
+import mysql.DerbyDaoFactory;
+import vo.Book;
+import vo.Order;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,31 +18,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.*;
-
-import mysql.DerbyDaoFactory;
-import vo.Book;
-import vo.Order;
-import dao.BookDao;
-import dao.DaoFactory;
-import dao.OrderDao;
-
-public class MyFrame extends JFrame {
+public class LibrarianFrame extends JFrame {
 	JPanel panel1;
-	JPanel panel2;
+	//JPanel panel2;
 	JTextField textField;
 	JButton searchButton;
 	JButton orderButton;
-	JTable bookTable;
 	JTable orderTable;
-	
+	//JTable orderTable;
+
 	int selectedBookRow = -1;
-	
+
 	DaoFactory daoFactory = new DerbyDaoFactory();
 	List<Book> bookList;
 	List<Order> orderList;
 
-	public MyFrame() {
+	public LibrarianFrame() {
 
 		this.setLocation(100, 100);
 		this.setSize(500, 500);
@@ -75,7 +74,7 @@ public class MyFrame extends JFrame {
 			//action on clicking ORDER button
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				selectedBookRow = bookTable.getSelectedRow();
+				selectedBookRow = orderTable.getSelectedRow();
 				//System.out.println(selectedBookRow);
 				makeOrder();
 				
@@ -90,8 +89,8 @@ public class MyFrame extends JFrame {
 
 	//initializing table that returns BOOKS after pressing SEARCH button
 	private void initializeTable() {
-		if(bookTable!= null)
-			panel1.remove(bookTable);
+		if(orderTable != null)
+			panel1.remove(orderTable);
 		if(bookList!= null){
 			bookList = null;
 		}
@@ -111,11 +110,11 @@ public class MyFrame extends JFrame {
 			data[i][2]=Integer.toString(bookList.get(i).getYear());
 			
 		}
-		bookTable = new JTable(data,columnNames);
-		JScrollPane scrollPane = new JScrollPane(bookTable);
-		bookTable.setFillsViewportHeight(true);
+		orderTable = new JTable(data,columnNames);
+		JScrollPane scrollPane = new JScrollPane(orderTable);
+		orderTable.setFillsViewportHeight(true);
 		panel1.add(scrollPane);
-		//panel1.add(bookTable);
+		//panel1.add(orderTable);
 		
 		this.revalidate();
 	}
@@ -137,7 +136,7 @@ public class MyFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new MyFrame();
+		new LibrarianFrame();
 		
 		// a.setVisible(true);
 	}
