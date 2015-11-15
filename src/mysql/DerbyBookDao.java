@@ -1,9 +1,6 @@
 package mysql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +17,25 @@ public class DerbyBookDao implements BookDao {
 	}
 
 	@Override
+	public Book read(int key) {
+		Book b = new Book();
+		try {
+			Statement st = connection.createStatement();
+			ResultSet res = st.executeQuery("SELECT * FROM APP.BOOKS where ID = " + key + ";");
+
+			b.setId(res.getInt(1));
+
+			res.close();
+			st.close();
+		} catch (SQLException e) {
+			System.out.println("... Incorrect SQL request on SELECT");
+		}
+		return b;
+	}
+	/*
+	@Override
 	public Book read(int key) throws SQLException {
-		String sql = "SELECT * FROM Books WHERE id = ?";
+		String sql = "SELECT * FROM Books WHERE ID LIKE '%"+key+"%'";
 		Book b = new Book();
 		try (PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, key);
@@ -32,6 +46,7 @@ public class DerbyBookDao implements BookDao {
 		}
 		return b;
 	}
+	*/
 
 	@Override
 	public void update(Book book) {
@@ -47,7 +62,7 @@ public class DerbyBookDao implements BookDao {
 
 	@Override
 	public List<Book> getAll() throws SQLException {
-		String sql = "SELECT * FROM books";
+		String sql = "SELECT * FROM APP.BOOKS";
 		PreparedStatement stm = connection.prepareStatement(sql);
 		ResultSet rs = stm.executeQuery();
 		List<Book> list = new ArrayList<Book>();

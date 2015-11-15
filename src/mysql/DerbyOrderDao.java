@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.BookDao;
+import dao.DaoFactory;
 import vo.Book;
 import vo.Order;
 import dao.OrderDao;
@@ -72,10 +74,14 @@ public class DerbyOrderDao implements OrderDao {
 		ResultSet rs = stm.executeQuery();
 		List<Order> list = new ArrayList<Order>();
 		Book b;
+
+		DaoFactory daoFactory = new DerbyDaoFactory();
+		BookDao dao = daoFactory.getBookDao(connection);
 		while (rs.next()) {
 			Order ord = new Order();
 			ord.setId(rs.getInt("id"));
-			//ord.setBook(rs.getInt("ID"));
+			//b = dao.read();
+			//ord.setBook(b);
 			ord.setStudent(rs.getInt("STUDENT_ID"));
 			ord.setCompleted(rs.getBoolean("completed"));
 			list.add(ord);
