@@ -63,7 +63,24 @@ public class DerbyOrderDao implements OrderDao {
 			list.add(ord);
 		}
 		return list;
+	}
 
+	@Override
+	public List<Order> getUncompleted() throws SQLException {
+		String sql = "SELECT * FROM orders WHERE COMPLETED=FALSE ";
+		PreparedStatement stm = connection.prepareStatement(sql);
+		ResultSet rs = stm.executeQuery();
+		List<Order> list = new ArrayList<Order>();
+		Book b;
+		while (rs.next()) {
+			Order ord = new Order();
+			ord.setId(rs.getInt("id"));
+			//ord.setBook(rs.getInt("ID"));
+			ord.setStudent(rs.getInt("STUDENT_ID"));
+			ord.setCompleted(rs.getBoolean("completed"));
+			list.add(ord);
+		}
+		return list;
 	}
 
 	public List<Order> search(String searchWord) throws SQLException {

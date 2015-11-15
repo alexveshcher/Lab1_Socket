@@ -13,4 +13,5 @@ public interface OrderDao {
 	public void delete(Order Order);
 	public List<Order> getAll() throws SQLException;
 	public List<Order> search(String searchWord) throws SQLException;
+    public List<Order> getUncompleted() throws SQLException;
 }

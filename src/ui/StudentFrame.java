@@ -21,7 +21,7 @@ import dao.OrderDao;
 
 public class StudentFrame extends JFrame {
 	JPanel panel1;
-	JPanel panel2;
+	//JPanel panel2;
 	JTextField textField;
 	JButton searchButton;
 	JButton orderButton;

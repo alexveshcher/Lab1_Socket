@@ -23,14 +23,11 @@ public class LibrarianFrame extends JFrame {
 	//JPanel panel2;
 	JTextField textField;
 	JButton searchButton;
-	JButton orderButton;
 	JTable orderTable;
-	//JTable orderTable;
 
 	int selectedBookRow = -1;
 
 	DaoFactory daoFactory = new DerbyDaoFactory();
-	List<Book> bookList;
 	List<Order> orderList;
 
 	public LibrarianFrame() {
@@ -47,9 +44,7 @@ public class LibrarianFrame extends JFrame {
 
 		searchButton = new JButton("search");
 		panel1.add(BorderLayout.NORTH,searchButton);
-		
-		orderButton = new JButton("order");
-		panel1.add(BorderLayout.SOUTH,orderButton);
+
 		
 		
 		
@@ -69,19 +64,7 @@ public class LibrarianFrame extends JFrame {
 			}
 		});
 		
-		orderButton.addActionListener(new ActionListener() {
 
-			//action on clicking ORDER button
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				selectedBookRow = orderTable.getSelectedRow();
-				//System.out.println(selectedBookRow);
-				makeOrder();
-				
-				
-				
-			}
-		});
 		
 		this.add(panel1);
 		this.setVisible(true);
@@ -91,23 +74,23 @@ public class LibrarianFrame extends JFrame {
 	private void initializeTable() {
 		if(orderTable != null)
 			panel1.remove(orderTable);
-		if(bookList!= null){
-			bookList = null;
+		if(orderList!= null){
+			orderList = null;
 		}
-		String[] columnNames = { "Authors", "Title", "Year"};
+		String[] columnNames = { "Order id", "Book id", "Student id"};
 		try (Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app","root")) {
-			BookDao dao = daoFactory.getBookDao(conn);
-			bookList = dao.search(textField.getText());
+			OrderDao dao = daoFactory.getOrderDao(conn);
+			orderList = dao.getUncompleted();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String data[][] = new String[bookList.size()][columnNames.length];
+		String data[][] = new String[orderList.size()][columnNames.length];
 		
-		for(int i = 0; i< bookList.size();i++){
-			data[i][0]= bookList.get(i).getAuthors();
-			data[i][1]=bookList.get(i).getTitle();
-			data[i][2]=Integer.toString(bookList.get(i).getYear());
+		for(int i = 0; i< orderList.size();i++){
+			data[i][0] = Integer.toString(orderList.get(i).getId());
+			//data[i][1] = Integer.toString(orderList.get(i).getBook().getId());
+			data[i][2] =Integer.toString(orderList.get(i).getStudent());
 			
 		}
 		orderTable = new JTable(data,columnNames);
@@ -119,21 +102,7 @@ public class LibrarianFrame extends JFrame {
 		this.revalidate();
 	}
 
-	private void makeOrder(){
-		
-		try (Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app","root")) {
-			OrderDao dao = daoFactory.getOrderDao(conn);
-			Order ord = new Order();
-			ord.setId(5);
-			ord.setBook(bookList.get(selectedBookRow));
-			System.out.println(ord.toString());
-			dao.create(ord);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	
 	public static void main(String[] args) {
 		new LibrarianFrame();
