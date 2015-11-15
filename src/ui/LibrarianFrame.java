@@ -86,7 +86,7 @@ public class LibrarianFrame extends JFrame {
 
         for (int i = 0; i < orderList.size(); i++) {
             data[i][0] = Integer.toString(orderList.get(i).getId());
-            //data[i][1] = Integer.toString(orderList.get(i).getBook().getId());
+            data[i][1] = Integer.toString(orderList.get(i).getBook().getId());
             data[i][2] = Integer.toString(orderList.get(i).getStudent());
 
         }

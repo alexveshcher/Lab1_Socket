@@ -75,7 +75,6 @@ public class StudentFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 selectedBookRow = bookTable.getSelectedRow();
-                //System.out.println(selectedBookRow);
                 makeOrder();
 
 
