@@ -94,7 +94,6 @@ public class DerbyOrderDao implements OrderDao {
 		String sql = "SELECT * FROM APP.ORDERS\n" + "WHERE ID LIKE '%"
 				+ searchWord + "%'\n" + "OR BOOK_ID LIKE '%" + searchWord
 				+ "%'\n";
-		// + "OR PUBLISHINGYEAR LIKE %"+Integer.parseInt(searchWord)+"%";
 
 		PreparedStatement stm = connection.prepareStatement(sql);
 		ResultSet rs = stm.executeQuery();
@@ -102,10 +101,6 @@ public class DerbyOrderDao implements OrderDao {
 		while (rs.next()) {
 			Order ord = new Order();
 			ord.setId(rs.getInt("id"));
-			// b.setTitle(rs.getString("title"));
-			// b.setAuthors(rs.getString("authors"));
-			// b.setYear(rs.getInt("publishingyear"));
-
 			list.add(ord);
 		}
 		return list;
