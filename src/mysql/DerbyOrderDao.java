@@ -80,8 +80,8 @@ public class DerbyOrderDao implements OrderDao {
 		while (rs.next()) {
 			Order ord = new Order();
 			ord.setId(rs.getInt("id"));
-			//b = dao.read();
-			//ord.setBook(b);
+			b = dao.read(rs.getInt("BOOK_ID"));
+			ord.setBook(b);
 			ord.setStudent(rs.getInt("STUDENT_ID"));
 			ord.setCompleted(rs.getBoolean("completed"));
 			list.add(ord);
