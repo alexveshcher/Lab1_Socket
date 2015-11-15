@@ -17,18 +17,21 @@ public class DerbyBookDao implements BookDao {
 	}
 
 	@Override
-	public Book read(int key) {
+	public Book read(int key) throws SQLException {
 		Book b = new Book();
-		try {
-			Statement st = connection.createStatement();
-			ResultSet res = st.executeQuery("SELECT * FROM APP.BOOKS where ID = " + key + ";");
+		String sql = "SELECT * FROM APP.BOOKS\n"
+				+ "WHERE ID = "+key+"\n";
+		//+ "OR PUBLISHINGYEAR LIKE %"+Integer.parseInt(searchWord)+"%";
 
-			b.setId(res.getInt(1));
+		PreparedStatement stm = connection.prepareStatement(sql);
+		ResultSet rs = stm.executeQuery();
 
-			res.close();
-			st.close();
-		} catch (SQLException e) {
-			System.out.println("... Incorrect SQL request on SELECT");
+		while (rs.next()) {
+			b.setId(rs.getInt("id"));
+			b.setTitle(rs.getString("title"));
+			b.setAuthors(rs.getString("authors"));
+			b.setYear(rs.getInt("publishingyear"));
+
 		}
 		return b;
 	}
