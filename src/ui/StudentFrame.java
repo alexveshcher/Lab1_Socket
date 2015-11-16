@@ -93,8 +93,8 @@ public class StudentFrame extends JFrame {
             bookList = null;
         }
         String[] columnNames = {"Authors", "Title", "Year"};
-        try (Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "root")) {
-            BookDao dao = daoFactory.getBookDao(conn);
+        try  {
+            BookDao dao = daoFactory.getBookDao();
 
             System.out.println(dao.read(1).toString());
 
@@ -122,8 +122,8 @@ public class StudentFrame extends JFrame {
 
     private void makeOrder() {
 
-        try (Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "root")) {
-            OrderDao dao = daoFactory.getOrderDao(conn);
+        try  {
+            OrderDao dao = daoFactory.getOrderDao();
             Order ord = new Order();
             ord.setId(5);
             ord.setBook(bookList.get(selectedBookRow));

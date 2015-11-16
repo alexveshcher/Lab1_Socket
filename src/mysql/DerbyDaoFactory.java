@@ -18,18 +18,24 @@ public class DerbyDaoFactory implements DaoFactory {
 	final String dbName = "sample";
 	final String jdbcURL = derbyProtocol + dbName;
 
-	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(jdbcURL, "app", "root");
+	public Connection getConnection()  {
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(jdbcURL, "app", "root");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return conn;
 	}
 
 	@Override
-	public BookDao getBookDao(Connection connection) {
-		return new DerbyBookDao(connection);
+	public BookDao getBookDao() {
+		return new DerbyBookDao(getConnection());
 	}
 
 	@Override
-	public OrderDao getOrderDao(Connection connection) {
-		return new DerbyOrderDao(connection);
+	public OrderDao getOrderDao() {
+		return new DerbyOrderDao(getConnection());
 	}
 
 	public DerbyDaoFactory() {
@@ -42,7 +48,7 @@ public class DerbyDaoFactory implements DaoFactory {
 		List<Book> list;
 		try (Connection conn = DriverManager.getConnection(jdbcURL, "app",
 				"root")) {
-			BookDao dao = daoFactory.getBookDao(conn);
+			BookDao dao = daoFactory.getBookDao();
 			list = dao.getAll();
 			System.out.println(dao.search("o").toString());
 		}

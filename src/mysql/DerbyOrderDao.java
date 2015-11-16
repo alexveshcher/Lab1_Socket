@@ -76,7 +76,7 @@ public class DerbyOrderDao implements OrderDao {
 		Book b;
 
 		DaoFactory daoFactory = new DerbyDaoFactory();
-		BookDao dao = daoFactory.getBookDao(connection);
+		BookDao dao = daoFactory.getBookDao();
 		while (rs.next()) {
 			Order ord = new Order();
 			ord.setId(rs.getInt("id"));

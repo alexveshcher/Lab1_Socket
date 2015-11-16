@@ -75,11 +75,10 @@ public class LibrarianFrame extends JFrame {
             orderList = null;
         }
         String[] columnNames = {"Order id", "Book id", "Student id"};
-        try (Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "root")) {
-            OrderDao dao = daoFactory.getOrderDao(conn);
+        try (Connection conn = daoFactory.getConnection()) {
+            OrderDao dao = daoFactory.getOrderDao();
             orderList = dao.getUncompleted();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         String data[][] = new String[orderList.size()][columnNames.length];

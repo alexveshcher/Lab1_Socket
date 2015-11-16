@@ -6,6 +6,6 @@ public interface DaoFactory {
 
 	public Connection getConnection() throws SQLException;
 	
-    public BookDao getBookDao(Connection connection);
-    public OrderDao getOrderDao(Connection connection);
+    public BookDao getBookDao();
+    public OrderDao getOrderDao();
 }
