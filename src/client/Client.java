@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 
 public class Client {
 
-    /*
+
     public static final String GET_ALL_BOOKS = "getAllBooks";
     public static final String GET_ALL_ORDERS = "getAllOrders";
     public static final String FORM_AN_ORDER = "formAnOrder";
@@ -28,10 +29,9 @@ public class Client {
     public static final String SET_BOOK = "SETBOOK";
     public static final String CHECK_LOGIN = "CHECK_LOGIN";
 
-    *//**
-     * @return all books from e-library
-     * @throws ClassNotFoundException
-     *//*
+    public static final String MAKE_ORDER = "makeOrder";
+
+
     public static TreeSet<Book> getBooks() {
         TreeSet<Book> books = null;
         try {
@@ -54,32 +54,6 @@ public class Client {
     }
 
 
-    *//**
-     * @return ordered books and their customers
-     * @throws ClassNotFoundException
-     *//*
-    *//*
-    public static HashMap<Book, User> getOrders() throws ClassNotFoundException, IOException {
-        try (Socket socket = new Socket(LOCALHOST, Server.PORT);
-             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-        ) {
-            //STARTING REQUEST
-            objectOutputStream.writeObject(new Object[]{GET_ALL_ORDERS});
-            objectOutputStream.flush();
-
-            //TRYING RECEIVE REQUEST
-            HashMap<Book, User> orders = (HashMap<Book, User>) objectInputStream.readObject();
-            return orders;
-
-        }
-    }
-
-    *//**
-     * form an order
-     *
-     * @param order -order of current user
-     *//*
     public static void formAnOrder(final Order order) throws IOException {
 
         try (Socket socket = new Socket(LOCALHOST, Server.PORT);
@@ -89,6 +63,17 @@ public class Client {
             objectOutputStream.writeObject(new Object[]{FORM_AN_ORDER, order});
             objectOutputStream.flush();
 
+        }
+    }
+
+    public static void makeOrder(final Order order) throws IOException {
+
+        try (Socket socket = new Socket(LOCALHOST, Server.PORT);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+        ) {
+            objectOutputStream.writeObject(new Object[]{MAKE_ORDER, order});
+            objectOutputStream.flush();
         }
     }
 
@@ -105,8 +90,7 @@ public class Client {
         }
     }
 
-*//*
-*/
+
 }
 
 

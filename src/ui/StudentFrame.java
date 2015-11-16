@@ -5,8 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import vo.Order;
 import dao.BookDao;
 import dao.DaoFactory;
 import dao.OrderDao;
+import client.Client;
 
 public class StudentFrame extends JFrame {
     JPanel panel1;
@@ -127,11 +127,9 @@ public class StudentFrame extends JFrame {
             Order ord = new Order();
             ord.setId(5);
             ord.setBook(bookList.get(selectedBookRow));
-            System.out.println(ord.toString());
-            dao.create(ord);
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            //System.out.println(ord.toString());
+            Client.makeOrder(ord);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

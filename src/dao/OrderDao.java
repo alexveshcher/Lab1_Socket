@@ -7,7 +7,7 @@ import java.util.List;
 import vo.Order;
 
 public interface OrderDao {
-	public void create(Order ord) throws SQLException;
+	public void makeOrder(Order ord) throws SQLException;
 	public Order read(int key) throws SQLException;
 	public void update(Order Order);
 	public void delete(Order Order);

@@ -21,12 +21,11 @@ public class DerbyOrderDao implements OrderDao {
 	}
 	
 	@Override
-	public void create(Order ord) throws SQLException {
+	public void makeOrder(Order ord) throws SQLException {
 		String sql = "INSERT INTO APP.ORDERS (BOOK_ID, STUDENT_ID, COMPLETED) VALUES ("
-				//+ord.getId()+","
 				+ord.getBook().getId()+","+
 				+ord.getStudent()+","
-				+ord.isCompleted()+")";//"2, 1, 4851548, false);";
+				+ord.isCompleted()+")";
 		PreparedStatement stm = connection.prepareStatement(sql);
 		stm.executeUpdate();
 		stm.close();

@@ -7,8 +7,8 @@ import java.net.Socket;
 
 public class Server {
 
-    /*
-    public static final int PORT = 1555;
+
+    public static final int PORT = 8080;
 
 
     public static void main(String[] args) {
@@ -24,5 +24,5 @@ public class Server {
             e.printStackTrace();
         }
     }
-*/
+
 }
