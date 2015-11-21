@@ -64,7 +64,7 @@ public class DerbyBookDao implements BookDao {
 	}
 
 	@Override
-	public List<Book> getAll() throws SQLException {
+	public List<Book> getAllBooks() throws SQLException {
 		String sql = "SELECT * FROM APP.BOOKS";
 		PreparedStatement stm = connection.prepareStatement(sql);
 		ResultSet rs = stm.executeQuery();
@@ -72,7 +72,9 @@ public class DerbyBookDao implements BookDao {
 		while (rs.next()) {
 			Book b = new Book();
 			b.setId(rs.getInt("id"));
-			// b.setAuthor("authors");
+			b.setTitle(rs.getString("title"));
+			b.setAuthors(rs.getString("authors"));
+			b.setYear(rs.getInt("publishingyear"));
 
 			list.add(b);
 		}

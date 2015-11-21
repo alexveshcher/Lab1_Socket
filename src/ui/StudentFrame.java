@@ -17,16 +17,15 @@ import vo.Order;
 import dao.BookDao;
 import dao.DaoFactory;
 import dao.OrderDao;
-import client.Client;
+//import client.Client;
 
 public class StudentFrame extends JFrame {
     JPanel panel1;
-    //JPanel panel2;
     JTextField textField;
     JButton searchButton;
     JButton orderButton;
     JTable bookTable;
-    JTable orderTable;
+    //JTable orderTable;
 
     int selectedBookRow = -1;
 
@@ -96,7 +95,7 @@ public class StudentFrame extends JFrame {
         try  {
             BookDao dao = daoFactory.getBookDao();
 
-            System.out.println(dao.read(1).toString());
+            //System.out.println(dao.read(1).toString());
 
             bookList = dao.search(textField.getText());
         } catch (SQLException e) {
@@ -122,14 +121,14 @@ public class StudentFrame extends JFrame {
 
     private void makeOrder() {
 
-        try  {
-            OrderDao dao = daoFactory.getOrderDao();
-            Order ord = new Order();
-            ord.setId(5);
-            ord.setBook(bookList.get(selectedBookRow));
-            //System.out.println(ord.toString());
-            Client.makeOrder(ord);
-        } catch (IOException e) {
+        OrderDao dao = daoFactory.getOrderDao();
+        Order ord = new Order();
+        ord.setId(5);
+        ord.setBook(bookList.get(selectedBookRow));
+        //System.out.println(ord.toString());
+        try {
+            dao.makeOrder(ord);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

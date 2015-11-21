@@ -37,17 +37,18 @@ public class ServerThread implements Runnable {
             //get request
             final Object[] reObject = (Object[]) objectInputStream.readObject();
             final String request = (String) reObject[0];
-            /*
+
             if (request.equals(Client.GET_ALL_BOOKS)) {
 
                 try {
-                    objectOutputStream.writeObject(orderDao.getAllBooks());
+                    objectOutputStream.writeObject(bookDao.getAllBooks());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
                 objectOutputStream.flush();
 
             }
+            /*
             if (request.equals(Client.GET_ALL_ORDERS)) {
 
                 HashMap<Book, User> orders = orderDao.getAllOrders();

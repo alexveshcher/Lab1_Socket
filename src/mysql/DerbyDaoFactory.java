@@ -49,7 +49,7 @@ public class DerbyDaoFactory implements DaoFactory {
 		try (Connection conn = DriverManager.getConnection(jdbcURL, "app",
 				"root")) {
 			BookDao dao = daoFactory.getBookDao();
-			list = dao.getAll();
+			list = dao.getAllBooks();
 			System.out.println(dao.search("o").toString());
 		}
 		Assert.assertNotNull(list);
