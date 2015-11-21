@@ -5,19 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.*;
 
-import mysql.DerbyDaoFactory;
+import dao.DAO;
+import derby.DerbyDAO;
 import vo.Book;
 import vo.Order;
-import dao.BookDao;
-import dao.DaoFactory;
-import dao.OrderDao;
-//import client.Client;
 
 public class StudentFrame extends JFrame {
     JPanel panel1;
@@ -29,7 +25,7 @@ public class StudentFrame extends JFrame {
 
     int selectedBookRow = -1;
 
-    DaoFactory daoFactory = new DerbyDaoFactory();
+    DAO dao = new DerbyDAO();
     List<Book> bookList;
     List<Order> orderList;
 
@@ -45,7 +41,7 @@ public class StudentFrame extends JFrame {
         textField.setText("введіть будь-які дані про книгу");
         panel1.add(textField);
 
-        searchButton = new JButton("search");
+        searchButton = new JButton("searchBook");
         panel1.add(BorderLayout.NORTH, searchButton);
 
         orderButton = new JButton("order");
@@ -64,7 +60,6 @@ public class StudentFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 initializeTable();
-
             }
         });
 
@@ -75,8 +70,6 @@ public class StudentFrame extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 selectedBookRow = bookTable.getSelectedRow();
                 makeOrder();
-
-
             }
         });
 
@@ -92,12 +85,8 @@ public class StudentFrame extends JFrame {
             bookList = null;
         }
         String[] columnNames = {"Authors", "Title", "Year"};
-        try  {
-            BookDao dao = daoFactory.getBookDao();
-
-            //System.out.println(dao.read(1).toString());
-
-            bookList = dao.search(textField.getText());
+        try {
+            bookList = dao.searchBook(textField.getText());
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -114,18 +103,14 @@ public class StudentFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(bookTable);
         bookTable.setFillsViewportHeight(true);
         panel1.add(scrollPane);
-        //panel1.add(orderTable);
-
         this.revalidate();
     }
 
     private void makeOrder() {
 
-        OrderDao dao = daoFactory.getOrderDao();
         Order ord = new Order();
         ord.setId(5);
         ord.setBook(bookList.get(selectedBookRow));
-        //System.out.println(ord.toString());
         try {
             dao.makeOrder(ord);
         } catch (SQLException e) {
@@ -135,7 +120,5 @@ public class StudentFrame extends JFrame {
 
     public static void main(String[] args) {
         new StudentFrame();
-
-        // a.setVisible(true);
     }
 }

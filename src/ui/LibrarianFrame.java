@@ -1,10 +1,7 @@
 package ui;
 
-import dao.BookDao;
-import dao.DaoFactory;
-import dao.OrderDao;
-import mysql.DerbyDaoFactory;
-import vo.Book;
+import dao.DAO;
+import derby.DerbyDAO;
 import vo.Order;
 
 import javax.swing.*;
@@ -14,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,7 +23,7 @@ public class LibrarianFrame extends JFrame {
 
     int selectedBookRow = -1;
 
-    DaoFactory daoFactory = new DerbyDaoFactory();
+    DAO dao = new DerbyDAO();
     List<Order> orderList;
 
     public LibrarianFrame() {
@@ -42,7 +38,7 @@ public class LibrarianFrame extends JFrame {
         textField.setText("введіть будь-які дані про книгу");
         panel1.add(textField);
 
-        searchButton = new JButton("search");
+        searchButton = new JButton("searchBook");
         panel1.add(BorderLayout.NORTH, searchButton);
 
 
@@ -67,7 +63,7 @@ public class LibrarianFrame extends JFrame {
         this.setVisible(true);
     }
 
-    //initializing table that returns BOOKS after pressing SEARCH button
+    //initializing table that returns Orders after pressing SEARCH button
     private void initializeTable() {
         if (orderTable != null)
             panel1.remove(orderTable);
@@ -75,12 +71,14 @@ public class LibrarianFrame extends JFrame {
             orderList = null;
         }
         String[] columnNames = {"Order id", "Book id", "Student id"};
-        try (Connection conn = daoFactory.getConnection()) {
-            OrderDao dao = daoFactory.getOrderDao();
+
+        try {
             orderList = dao.getUncompleted();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
         String data[][] = new String[orderList.size()][columnNames.length];
 
         for (int i = 0; i < orderList.size(); i++) {
